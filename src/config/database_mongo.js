@@ -4,14 +4,19 @@
 import {ConfigService} from "../services/ConfigService";
 import {MongoService} from "../services/MongoService";
 
-let MongoDb = async function(){
+class MongoDb {
+    static async getClient() {
+        const config = ConfigService.parse(__dirname+"/parameters.yml");
 
-    var config =  ConfigService.parse(__dirname+"/parameters.yml");
+        if (this.mongo_client) return this.mongo_client;
 
-    let mongo_client = await MongoService.connect(config.database.mongo);
+        this.mongo_client = await MongoService.connect(config.database.mongo);
 
-    return mongo_client;
+        return this.mongo_client;
+    }
+}
+
+export default async function() {
+    return MongoDb.getClient();
 };
-
-export default MongoDb;
 

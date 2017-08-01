@@ -1,13 +1,13 @@
-import {BreweryApiService} from "../services/BreweryApiService";
-import {ConfigService} from "../services/ConfigService";
+import BreweryApiService from '../services/BreweryApiService';
+import {ConfigService} from '../services/ConfigService';
+import _ from 'lodash';
 
-let BreweryWs = function(){
+const BreweryWs = _.memoize(function() {
+  const config = ConfigService.parse(__dirname+"/parameters.yml");
 
-    var config =  ConfigService.parse(__dirname+"/parameters.yml");
+  const brewery_ws = new BreweryApiService(config.brewery_api.url, config.brewery_api.api_key);
 
-    let brewery_ws = new BreweryApiService(config.brewery_api.url, config.brewery_api.api_key);
-
-    return brewery_ws;
-};
+  return brewery_ws;
+});
 
 export default BreweryWs;
