@@ -190,8 +190,6 @@ class BreweryService {
         nameShortDisplay : 'text',
         description: 'text'
       });
-
-      console.log('Creating brewery index');
     } catch (err) {
       console.log(err);
     }
