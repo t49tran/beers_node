@@ -1,5 +1,7 @@
-import {ConfigService} from '../services/ConfigService';
+import fs from 'fs';
+import JsYaml from 'js-yaml';
+const parameters_file = require('./parameters.yml');
 
-const PARAMETERS =  ConfigService.parse(__dirname+"/parameters.yml");
+const PARAMETERS = JsYaml.safeLoad(fs.readFileSync(parameters_file));
 
 export default PARAMETERS;

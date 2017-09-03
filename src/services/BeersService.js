@@ -1,6 +1,7 @@
+import Promise from 'bluebird';
+
 import MongoDb from '../config/database_mongo';
 import BreweryWs from '../config/brewery_api_handler';
-import Promise from 'bluebird';
 
 class BeersService {
   constructor() {
@@ -21,7 +22,8 @@ class BeersService {
       });
     }
 
-    const beers_updated = await beers.map(beer => () => this.updateSingleBeerIngredients(beer))
+    const beers_updated = await beers
+      .map(beer => () => this.updateSingleBeerIngredients(beer))
       .reduce((promise_to_call, beer_update_fn) => promise_to_call.then(beer_update_fn), Promise.resolve());
 
     console.log('All beers ingredients populated', beers);
@@ -62,4 +64,4 @@ class BeersService {
   }
 }
 
-export {BeersService};
+export { BeersService };

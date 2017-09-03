@@ -1,26 +1,50 @@
-import MongoDb from "../config/database_mongo";
-import BreweryWs from "../config/brewery_api_handler";
-import Promise from "bluebird";
+import MongoDb from '../config/database_mongo';
+import Promise from 'bluebird';
 
-class CategoriesService {
-    constructor() {
-        this.collection = "categories";
-    }
+import BreweryApiService from './BreweryApiService';
+import { Category } from '../models/Categories'; 
 
-    async createCategoriesIndex() {
-        let db = await MongoDb();
+const CategoryCollection = 'categories';
 
-        let categoriesCollection = Promise.promisifyAll(db.collection(this.collection));
+async function createCategoriesIndex() {
+  const db = await MongoDb();
+  const categoriesCollection = Promise.promisifyAll(db.collection(CategoryCollection));
 
-        try {
-            categoriesCollection.createIndex({
-                name: 'text'
-            });
-            console.log('Categories index created');
-        } catch (err) {
-            console.log(err);
-        }
-    }
+  try {
+    categoriesCollection.createIndex({ name: 'text' });
+  } catch(err) {
+    console.log(err);
+  }
 }
 
-export {CategoriesService};
+async function importCategoryToDb(data) {
+  const category = new Category({
+    id: data.id,
+    name: data.name,
+  });
+
+  return category.save();
+}
+
+async function populateCategoriesFromApi() {
+  try {
+    const categories = await BreweryApiService.fetchCategories();
+
+
+    const { data = [] } = categories;
+
+    data
+      .map(category => () => importCategoryToDb(category))
+      .reduce((promiseToCall, categoryFunc) => promiseToCall.then(categoryFunc)
+        , Promise.resolve());
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+const CategoriesService = {
+  createCategoriesIndex,
+  populateCategoriesFromApi,
+}
+
+export default CategoriesService;
