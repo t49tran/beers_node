@@ -23,12 +23,49 @@ function checkBreweryAPIConfiguration() {
   }
 }
 
-async function fetchBeers() {
+async function fetchBeers(page) {
   checkBreweryAPIConfiguration();
+
+  const apiUrl = `${BREWERY_DB.API_ENDPOINT}/beers?key=${BREWERY_DB.API_KEY}&p=${page}&withBreweries=Y`;
+  return rp({ uri: apiUrl, json: true });
 }
 
-async function fetchBreweries() {
+async function fetchNoOfBeerPages() {
+  try {
+    checkBreweryAPIConfiguration();
+
+    const apiUrl = `${BREWERY_DB.API_ENDPOINT}/beers?key=${BREWERY_DB.API_KEY}`;
+
+    const { numberOfPages } = await rp({ uri: apiUrl, json: true });
+
+    return numberOfPages;  
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+/**
+ * Fetching breweries information by page
+**/
+async function fetchBreweries(page) {
   checkBreweryAPIConfiguration();
+
+  const apiUrl = `${BREWERY_DB.API_ENDPOINT}/breweries?key=${BREWERY_DB.API_KEY}&p=${page}&withAlternateNames=Y&withLocations=Y`;
+  return rp({ uri: apiUrl, json: true });
+}
+
+async function fetchNoOfBreweryPages() {
+  try {
+    checkBreweryAPIConfiguration();
+
+    const apiUrl = `${BREWERY_DB.API_ENDPOINT}/breweries?key=${BREWERY_DB.API_KEY}`;
+
+    const { numberOfPages } = await rp({ uri: apiUrl, json: true });
+
+    return numberOfPages;  
+  } catch(err) {
+    console.log(err);
+  }
 }
 
 /**
@@ -135,7 +172,10 @@ async function findBreweryLocation(brewery_id) {
 const BreweryAPIService = {
   fetchStyles,
   fetchCategories,
-  findBreweryLocation,
+  fetchBreweries,
+  fetchNoOfBreweryPages,
+  fetchBeers,
+  fetchNoOfBeerPages
 };
 
 export default BreweryAPIService;

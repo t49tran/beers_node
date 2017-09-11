@@ -20,8 +20,6 @@ async function populateStylesFromApi() {
 }
 
 async function importStyleToDb(data) {
-  console.log('Processing', data.name);
-
   const style = new Style({
     id: data.id,
     name: data.name,
@@ -44,8 +42,6 @@ async function createStylesIndex() {
       shortName : 'text',
       description: 'text',
     });
-
-    console.log('Styles index created');
   } catch (err) {
     console.log(err);
   }

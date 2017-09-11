@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel src/index.js -o app.js",
-    "run": "node app.js"
+    "build": "webpack",
+    "start": "node app.js"
   },
   "dependencies": {
     "babel": "6.23.0",
