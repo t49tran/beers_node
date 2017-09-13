@@ -24,6 +24,7 @@
     "babel-preset-es2017": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "file-loader": "0.11.2",
+    "jest": "21.0.2",
     "webpack": "3.5.5",
     "webpack-dev-server": "2.7.1",
     "yaml-loader": "0.5.0"
