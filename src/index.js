@@ -1,4 +1,4 @@
-import StylesService from './services/StyleService';
+import StyleService from './services/StyleService';
 import CategoryService from './services/CategoryService';
 import BreweryService from './services/BreweryService';
 import CountryService from './services/CountryService';
@@ -12,8 +12,14 @@ try {
   //BreweryService.populateLocationForBreweries();
   //CountryService.populateCountries();
   //CityService.populateCities();
+  //BeerService.populateBeersFromApi();
+  //StyleService.linkStylesWithCategories();
+  //StyleService.listStylesWithCategories();
 
-  BeerService.populateBeersFromApi();
+  //CityService.listCities();
+  //CityService.populateCities();
+  
+  BreweryService.updateCitiesName();
 } catch(err) {
   console.log(err);
 }

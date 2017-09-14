@@ -84,11 +84,23 @@ async function handleBreweriesPage(page) {
   const { data } = await BreweryApiService.fetchBreweries(page);
     
   return Promise.all(data.map(brewery => importBreweryToDb(brewery)));  
+}
+
+async function updateCitiesName() {
+  const breweries = await Brewery.find({});
+
+  breweries.forEach(async ({ _id, name, city }) => {
+    if (city === undefined || city === null) return;
+
+    await Brewery.update({ id: _id }, { cityName: city});
+    console.log(` Updating ${name} @ ${city}`);
+  }); 
 }  
 
 const BreweryService = {
   populateBreweriesFromApi,
   populateLocationForBreweries,
+  updateCitiesName,
 };
 
 export default BreweryService;

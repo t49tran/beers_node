@@ -8,6 +8,7 @@ export const BrewerySchema = new Schema({
   established: String,
   country: String,
   city: String,
+  cityName: String,
   images: Array,
   locations: Array,
   alternateNames: Array,

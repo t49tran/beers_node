@@ -30,6 +30,10 @@ async function createCountryFromCode(country) {
   return _country.save();
 };
 
+async function populateCountryCities() {
+  
+}
+
 const CountriesService = {
   populateCountries,
 };
